@@ -1,19 +1,33 @@
 "use client";
 import { ApiProvider } from "@reduxjs/toolkit/dist/query/react";
-import React, { Button } from "antd";
+import React, { Skeleton } from "antd";
 import { starWarsApi } from "@/app/store";
-import { Fragment, useState } from "react";
 
 const Component = ({ id }: { id: string }) => {
-  const { data, isLoading, isFetching } = starWarsApi.useGetPersonByIdQuery(id);
+  const {
+    data,
+    isLoading,
+    isFetching,
+    error,
+  } = starWarsApi.useGetPersonByIdQuery(id);
 
-  if (isLoading) {
-    return <div>Loading</div>;
+  if (isLoading || isFetching) {
+    return (
+      <div style={{ width: 500 }}>
+        <Skeleton />
+        <Skeleton />
+      </div>
+    );
   }
 
   if (!data) {
     return <div>Empty :(</div>;
   }
+
+  if (error) {
+    return <div>Error</div>;
+  }
+
   return (
     <>
       <h1>{data.name}</h1>
