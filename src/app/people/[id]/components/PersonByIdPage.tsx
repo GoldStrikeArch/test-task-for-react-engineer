@@ -20,12 +20,12 @@ const Component = ({ id }: { id: string }) => {
     );
   }
 
-  if (!data) {
-    return <div>Empty :(</div>;
-  }
-
   if (error) {
     return <div>Error</div>;
+  }
+
+  if (!data) {
+    return <div>Empty :(</div>;
   }
 
   return (
