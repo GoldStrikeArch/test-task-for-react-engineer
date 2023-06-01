@@ -18,6 +18,7 @@ export type Person = {
   starships: URLstring[];
   created: DateString;
   edited: DateString;
+  isClientOnlyEdited: boolean;
   url: string;
 };
 
