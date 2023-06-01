@@ -1,7 +1,13 @@
 import PersonByIdPage from "./components/PersonByIdPage";
 
-const Page = ({ params }: { params: { id: string } }) => {
+type Params = {
+  params: {
+    id: string;
+  };
+};
+const Page = ({ params }: Params) => {
   const { id } = params;
+
   return (
     <>
       <PersonByIdPage id={id} />

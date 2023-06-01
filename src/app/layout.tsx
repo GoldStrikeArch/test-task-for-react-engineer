@@ -1,5 +1,6 @@
 import "./globals.css";
 import { RootStyleRegistry } from "./components/RootStyleRegistry";
+import Providers from "./components/Providers";
 
 export const metadata = {
   title: "Test Task For React Engineer",
@@ -14,7 +15,9 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
-        <RootStyleRegistry>{children}</RootStyleRegistry>
+        <RootStyleRegistry>
+          <Providers>{children}</Providers>
+        </RootStyleRegistry>
       </body>
     </html>
   );
