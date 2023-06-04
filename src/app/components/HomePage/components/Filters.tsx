@@ -1,5 +1,5 @@
 import { useAppDispatch, useAppSelector } from "@/store";
-import { setFilters, setPersons } from "@/store/searchSlice";
+import { setFilters } from "@/store/searchSlice";
 import { starWarsApi } from "@/store/starWarsApi";
 import { Select } from "antd";
 
@@ -22,7 +22,6 @@ export const Filters = () => {
         options={EYE_COLORS.map((x) => ({ value: x, label: x }))}
         onChange={(val) => {
           dispatch(setFilters({ eye_color: val, mass, height }));
-          dispatch(setPersons(data!.results));
         }}
       />
     </div>

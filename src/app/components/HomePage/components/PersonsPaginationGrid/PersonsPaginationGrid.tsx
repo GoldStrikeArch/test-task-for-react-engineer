@@ -3,10 +3,12 @@ import { Fragment } from "react";
 
 import { useAppDispatch, useAppSelector } from "@/store";
 import { starWarsApi } from "@/store/starWarsApi";
-import { CARD_WIDTH } from "@/constants";
-import { setPage } from "@/store/searchSlice";
+import { CARD_WIDTH, DEFAULT_FILTERS } from "@/constants";
+import { filterPersons, setPage } from "@/store/searchSlice";
 import { LoadingSkeletons } from "@/app/components/HomePage/components/LoadingSkeletons";
 import { PersonCard } from "@/app/components/HomePage/components/PersonCard";
+import { equals } from "@/utils/functions/equals";
+import { GetPeopleResponse, Person } from "@/types/starWarsApiTypes";
 
 type Props = {
   search: string;
@@ -15,13 +17,31 @@ type Props = {
 export const PersonsPaginatedGrid = ({ search }: Props) => {
   const dispatch = useAppDispatch();
   const page = useAppSelector((state) => state.search.page);
+  const filters = useAppSelector((state) => state.search.filters);
 
   const {
     data,
     isFetching,
     isLoading,
     error,
-  } = starWarsApi.useSearchPeopleByNameQuery({ search, page });
+  } = starWarsApi.useSearchPeopleByNameQuery(
+    { search, page },
+    {
+      selectFromResult: (res) => {
+        if (equals(filters, DEFAULT_FILTERS)) return res;
+
+        const filterFn = filterPersons(filters);
+        const filtered = res.data?.results.filter(filterFn) as Person[];
+        const data = {
+          ...res.data,
+          count: 10,
+          results: filtered,
+        } as GetPeopleResponse;
+
+        return { ...res, data };
+      },
+    }
+  );
 
   const handleChange: PaginationProps["onChange"] = (page) => {
     dispatch(setPage(page));

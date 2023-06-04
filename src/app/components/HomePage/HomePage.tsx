@@ -13,8 +13,6 @@ export const HomePage = () => {
   const dispatch = useAppDispatch();
   const search = useAppSelector((state) => state.search.query);
   const debouncedSearch = useDebounce(search.toLowerCase().trim());
-  const data = useAppSelector((state) => state.search.persons);
-  const filters = useAppSelector((state) => state.search.filters);
 
   useEffect(() => {
     if (debouncedSearch) {
@@ -29,8 +27,6 @@ export const HomePage = () => {
         onChange={(e) => dispatch(setSearch(e.target.value))}
       />
       <Filters />
-      <pre>{JSON.stringify(data, null, 2)}</pre>
-      <pre>{JSON.stringify(filters, null, 2)}</pre>
       <PersonsPaginatedGrid search={debouncedSearch} />
     </main>
   );

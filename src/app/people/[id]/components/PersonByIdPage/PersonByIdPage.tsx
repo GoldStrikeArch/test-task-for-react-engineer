@@ -44,12 +44,7 @@ const EditPanel = ({
 };
 
 export const PersonByIdPage = ({ id }: { id: string }) => {
-  const {
-    data,
-    isLoading,
-    isFetching,
-    error,
-  } = starWarsApi.useGetPersonByIdQuery(id);
+  const { data, isLoading, isFetching, error } = starWarsApi.nByIdQuery(id);
 
   const [isEditMode, setIsEditMode] = useState(false);
 
