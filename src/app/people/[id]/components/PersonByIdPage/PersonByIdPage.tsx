@@ -1,9 +1,9 @@
 "use client";
+
 import React, { Button, Skeleton } from "antd";
 import { LeftOutlined } from "@ant-design/icons";
 import Title from "antd/es/typography/Title";
 import Input from "antd/es/input/Input";
-import { ApiProvider } from "@reduxjs/toolkit/dist/query/react";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
@@ -43,7 +43,7 @@ const EditPanel = ({
   );
 };
 
-const Component = ({ id }: { id: string }) => {
+export const PersonByIdPage = ({ id }: { id: string }) => {
   const {
     data,
     isLoading,
@@ -96,13 +96,3 @@ const Component = ({ id }: { id: string }) => {
     </>
   );
 };
-
-const PersonByIdPage = ({ id }: { id: string }) => {
-  return (
-    <ApiProvider api={starWarsApi}>
-      <Component id={id} />
-    </ApiProvider>
-  );
-};
-
-export default PersonByIdPage;

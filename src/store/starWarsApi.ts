@@ -1,6 +1,7 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
 import type { GetPeopleResponse, Person } from "@/types/starWarsApiTypes";
+import { setCount, setPersons } from "./searchSlice";
 
 const BASE_URL = "https://swapi.dev/api";
 const PATHS = {
@@ -30,20 +31,13 @@ export const starWarsApi = createApi({
           return PATHS.peopleByName(search, page);
         },
         async onCacheEntryAdded(
-          arg,
-          {
-            dispatch,
-            getState,
-            extra,
-            requestId,
-            cacheEntryRemoved,
-            cacheDataLoaded,
-            getCacheEntry,
-            updateCachedData,
-          }
+          _,
+          { dispatch, cacheDataLoaded, getCacheEntry }
         ) {
-          console.log("arg is", arg);
-          console.log("getCacheEntry is", getCacheEntry());
+          await cacheDataLoaded;
+
+          dispatch(setPersons(getCacheEntry().data!.results));
+          dispatch(setCount(getCacheEntry().data!.count));
         },
         providesTags: (_, __, { search }) => [
           { type: "StarWars", id: "PARTIAL_LIST_" + search },

@@ -8,11 +8,7 @@ type Params = {
 const Page = ({ params }: Params) => {
   const { id } = params;
 
-  return (
-    <>
-      <PersonByIdPage id={id} />
-    </>
-  );
+  return <PersonByIdPage id={id} />;
 };
 
 export default Page;
