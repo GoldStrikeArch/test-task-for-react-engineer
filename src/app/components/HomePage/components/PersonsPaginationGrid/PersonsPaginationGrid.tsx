@@ -9,6 +9,7 @@ import { LoadingSkeletons } from "@/app/components/HomePage/components/LoadingSk
 import { PersonCard } from "@/app/components/HomePage/components/PersonCard";
 import { equals } from "@/utils/functions/equals";
 import { GetPeopleResponse, Person } from "@/types/starWarsApiTypes";
+import EmptyContainer from "@/components/EmptyContainer";
 
 type Props = {
   search: string;
@@ -60,7 +61,7 @@ export const PersonsPaginatedGrid = ({ search }: Props) => {
   }
 
   if (!data?.results.length) {
-    return <div>No people :(</div>;
+    return <EmptyContainer title="No people :(" />;
   }
 
   return (

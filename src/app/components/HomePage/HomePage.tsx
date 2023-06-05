@@ -6,7 +6,7 @@ import { setPage, setSearch } from "@/store/searchSlice";
 
 import useDebounce from "@/utils/hooks/useDebounce";
 import { useAppDispatch, useAppSelector } from "@/store";
-import { Filters } from "./components/Filters";
+import { FiltersSection } from "./components/FiltersSection";
 import PersonsPaginatedGrid from "./components/PersonsPaginationGrid";
 
 export const HomePage = () => {
@@ -26,7 +26,7 @@ export const HomePage = () => {
         value={search}
         onChange={(e) => dispatch(setSearch(e.target.value))}
       />
-      <Filters />
+      <FiltersSection />
       <PersonsPaginatedGrid search={debouncedSearch} />
     </main>
   );
