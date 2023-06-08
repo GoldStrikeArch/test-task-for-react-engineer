@@ -44,11 +44,14 @@ const EditPanel = ({
 };
 
 export const PersonByIdPage = ({ id }: { id: string }) => {
-  const { data, isLoading, isFetching, error } = starWarsApi.nByIdQuery(id);
+  const {
+    data,
+    isLoading,
+    isFetching,
+    error,
+  } = starWarsApi.useGetPersonByIdQuery(id);
 
   const [isEditMode, setIsEditMode] = useState(false);
-
-  const router = useRouter();
 
   if (isLoading || isFetching) {
     return (
@@ -72,13 +75,6 @@ export const PersonByIdPage = ({ id }: { id: string }) => {
       <Link href="/">
         <LeftOutlined />
       </Link>
-      <Button
-        onClick={() => {
-          router.back();
-        }}
-      >
-        <LeftOutlined />
-      </Button>
       {isEditMode ? (
         <EditPanel data={data} id={id} setIsEditMode={setIsEditMode} />
       ) : (
