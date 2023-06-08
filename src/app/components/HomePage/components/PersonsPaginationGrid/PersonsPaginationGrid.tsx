@@ -59,7 +59,7 @@ export const PersonsPaginatedGrid = ({ search }: Props) => {
   }
 
   if (error) {
-    return <div>Error</div>;
+    return <EmptyContainer title="Error, something went wrong" />;
   }
 
   if (!data?.results.length) {
@@ -74,7 +74,10 @@ export const PersonsPaginatedGrid = ({ search }: Props) => {
 
           person = !editedPerson ? person : editedPerson;
           return isFetching ? (
-            <div key={person.url + "skeleton"} style={{ width: CARD_WIDTH }}>
+            <div
+              key={person.url + "skeleton"}
+              style={{ width: CARD_WIDTH, marginLeft: "8px" }}
+            >
               <Skeleton active />
               <Skeleton.Button active />
             </div>
@@ -91,6 +94,7 @@ export const PersonsPaginatedGrid = ({ search }: Props) => {
         })}
       </Row>
       <Pagination
+        style={{ marginTop: "16px" }}
         current={page}
         total={data.count}
         showSizeChanger={false}

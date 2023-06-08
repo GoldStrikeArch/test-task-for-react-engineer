@@ -3,6 +3,7 @@ import { useAppDispatch, useAppSelector } from "@/store";
 import { Filters, setFilters } from "@/store/searchSlice";
 
 import { Col, Row, Select, Slider } from "antd";
+import Title from "antd/es/typography/Title";
 
 const EYE_COLORS = ["any", "green", "blue", "brown", "red", "yellow"];
 
@@ -22,32 +23,32 @@ export const FiltersSection = () => {
     dispatch(setFilters({ mass: newMassRange, eye_color: eyeColor, height }));
 
   return (
-    <Row>
-      <Col span={4}>
+    <div>
+      <Col style={{ marginRight: "25%" }}>
+        <Title level={3}>Filters</Title>
+        <p>Eye color</p>
         <Select
           value={eyeColor}
           options={EYE_COLORS.map((x) => ({ value: x, label: x }))}
           onChange={handleChangeEyeColor}
         />
-      </Col>
-      <Col span={6}>
         <p>Height</p>
         <Slider
+          style={{ maxWidth: "33%" }}
           range={{ draggableTrack: true }}
           max={DEFAULT_FILTERS.height[1]}
           defaultValue={DEFAULT_FILTERS.height}
           onChange={handleChangeHeight}
         />
-      </Col>
-      <Col span={6} style={{ marginLeft: "16px" }}>
         <p>Mass</p>
         <Slider
+          style={{ maxWidth: "33%" }}
           range={{ draggableTrack: true }}
           defaultValue={DEFAULT_FILTERS.mass}
           max={DEFAULT_FILTERS.mass[1]}
           onChange={handleChangeMass}
         />
       </Col>
-    </Row>
+    </div>
   );
 };

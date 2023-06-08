@@ -10,7 +10,10 @@ export const PersonCard = ({ name, height, mass, url, eye_color }: Props) => {
   const id = url.split("/").at(-2);
 
   return (
-    <Card title={name} style={{ width: CARD_WIDTH }}>
+    <Card
+      title={name}
+      style={{ width: CARD_WIDTH, marginLeft: "8px", marginTop: "8px" }}
+    >
       <p>
         <b>Height</b> - {height}
       </p>

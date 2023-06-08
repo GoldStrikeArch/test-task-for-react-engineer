@@ -23,6 +23,8 @@ export const HomePage = () => {
   return (
     <main>
       <Search
+        maxLength={100}
+        style={{ marginTop: "48px", maxWidth: "33%" }}
         value={search}
         onChange={(e) => dispatch(setSearch(e.target.value))}
       />
