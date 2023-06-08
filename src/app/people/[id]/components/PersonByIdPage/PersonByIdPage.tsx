@@ -3,45 +3,12 @@
 import React, { Button, Skeleton } from "antd";
 import { LeftOutlined } from "@ant-design/icons";
 import Title from "antd/es/typography/Title";
-import Input from "antd/es/input/Input";
-import { useState } from "react";
-import { useRouter } from "next/navigation";
+
 import Link from "next/link";
-
-import type { Person } from "@/types/starWarsApiTypes";
 import { starWarsApi } from "@/store/starWarsApi";
-import { useAppDispatch } from "@/store";
-
-const EditPanel = ({
-  data,
-  id,
-  setIsEditMode,
-}: {
-  data: Person;
-  id: string;
-  setIsEditMode: any;
-}) => {
-  const [name, setName] = useState(data.name);
-  const dispatch = useAppDispatch();
-
-  const handleClick = () => {
-    dispatch(
-      starWarsApi.util.updateQueryData("getPersonById", id, (prevData) => {
-        console.log("prev data is", prevData.name);
-        return { ...prevData, name };
-      })
-    );
-
-    setIsEditMode(false);
-  };
-
-  return (
-    <>
-      <Input value={name} onChange={(e) => setName(e.target.value)} />
-      <Button onClick={handleClick}>Submit changes</Button>
-    </>
-  );
-};
+import { useAppDispatch, useAppSelector } from "@/store";
+import { EditPanel } from "./components/EditPanel";
+import { setIsEditMode } from "@/store/editSlice";
 
 export const PersonByIdPage = ({ id }: { id: string }) => {
   const {
@@ -51,7 +18,13 @@ export const PersonByIdPage = ({ id }: { id: string }) => {
     error,
   } = starWarsApi.useGetPersonByIdQuery(id);
 
-  const [isEditMode, setIsEditMode] = useState(false);
+  const dispatch = useAppDispatch();
+  const isEditMode = useAppSelector((state) => state.edit.isEditMode);
+  const editedPersons = useAppSelector((state) => state.edit.editedPersons);
+
+  const handleClick = () => {
+    dispatch(setIsEditMode(true));
+  };
 
   if (isLoading || isFetching) {
     return (
@@ -69,19 +42,21 @@ export const PersonByIdPage = ({ id }: { id: string }) => {
   if (!data) {
     return <div>Empty :(</div>;
   }
+  const editedPerson = editedPersons.find((p) => p.url === data.url);
+  const person = !editedPerson ? data : editedPerson;
 
   return (
     <>
-      <Link href="/">
-        <LeftOutlined />
-      </Link>
       {isEditMode ? (
-        <EditPanel data={data} id={id} setIsEditMode={setIsEditMode} />
+        <EditPanel person={person} />
       ) : (
         <>
-          <Title>{data.name}</Title>
-          <pre>{JSON.stringify(data, null, 2)}</pre>
-          <Button onClick={() => setIsEditMode(true)}>Edit</Button>
+          <Link href="/">
+            <LeftOutlined />
+          </Link>
+          <Title>{person.name}</Title>
+          <pre>{JSON.stringify(person, null, 2)}</pre>
+          <Button onClick={handleClick}>Edit</Button>
         </>
       )}
     </>

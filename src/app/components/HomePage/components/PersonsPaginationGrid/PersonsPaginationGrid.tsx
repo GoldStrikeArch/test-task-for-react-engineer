@@ -19,6 +19,7 @@ export const PersonsPaginatedGrid = ({ search }: Props) => {
   const dispatch = useAppDispatch();
   const page = useAppSelector((state) => state.search.page);
   const filters = useAppSelector((state) => state.search.filters);
+  const editedPersons = useAppSelector((state) => state.edit.editedPersons);
 
   const {
     data,
@@ -33,6 +34,7 @@ export const PersonsPaginatedGrid = ({ search }: Props) => {
 
         const filterFn = filterPersons(filters);
         const filtered = res.data?.results.filter(filterFn) as Person[];
+
         const data = {
           ...res.data,
           count: 10,
@@ -67,22 +69,24 @@ export const PersonsPaginatedGrid = ({ search }: Props) => {
   return (
     <>
       <Row gutter={{ xs: 8, sm: 16, md: 24, lg: 32 }}>
-        {data!.results.map((person: any) => {
+        {data!.results.map((person: Person) => {
+          const editedPerson = editedPersons.find((p) => p.url === person.url);
+
+          person = !editedPerson ? person : editedPerson;
           return isFetching ? (
             <div key={person.url + "skeleton"} style={{ width: CARD_WIDTH }}>
               <Skeleton active />
               <Skeleton.Button active />
             </div>
           ) : (
-            <Fragment key={person.url}>
-              <PersonCard
-                name={person.name}
-                height={person.height}
-                eye_color={person.eye_color}
-                mass={person.mass}
-                url={person.url}
-              />
-            </Fragment>
+            <PersonCard
+              key={person.url}
+              name={person.name}
+              height={person.height}
+              eye_color={person.eye_color}
+              mass={person.mass}
+              url={person.url}
+            />
           );
         })}
       </Row>
